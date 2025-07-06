@@ -28,10 +28,8 @@ async function run () {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect()
 
-    const doctorsCollection = client.db('hashi').collection('doctors')
-    const userCollection = client.db('hashi').collection('users')
-    const appointmentCollection = client.db('hashi').collection('appointment')
-    const reviewsCollection = client.db('hashi').collection('reviews')
+    const userCollection = client.db('GradGO').collection('users')
+    const reviewsCollection = client.db('GradGO').collection('reviews')
 
       // jwt related api
     app.post('/jwt', async (req, res) => {
