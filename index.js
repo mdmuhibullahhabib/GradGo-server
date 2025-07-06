@@ -2,9 +2,9 @@ const express = require('express')
 require('dotenv').config()
 const app = express()
 const cors = require('cors')
-const port = process.env.PORT || 5000
+const jwt = require('jsonwebtoken')
 const { ObjectId } = require('mongodb')
-
+const port = process.env.PORT || 5000;
 
 
 // middleware
@@ -23,22 +23,22 @@ const client = new MongoClient(uri, {
   }
 })
 
-async function run () {
+async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    // await client.connect()
+    await client.connect()
 
-    const userCollection = client.db('GradGO').collection('users')
+    const userCollection = client.db('GradGo').collection('users')
     const reviewsCollection = client.db('GradGO').collection('reviews')
 
-      // jwt related api
+    // jwt related api
     app.post('/jwt', async (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
       res.send({ token });
     })
 
-    // // middlewares 
+     // middlewares 
     const verifyToken = (req, res, next) => {
       console.log('inside verify token', req.headers.authorization);
       if (!req.headers.authorization) {
@@ -60,8 +60,9 @@ async function run () {
       res.send(result)
     })
 
+
     // user related apis
-        app.get('/users', async (req, res) => {
+    app.get('/users', async (req, res) => {
       const result = await userCollection.find().toArray()
       res.send(result)
     })
@@ -77,7 +78,7 @@ async function run () {
       res.send(result)
     })
 
-  app.get('/users/role/:email', verifyToken, async (req, res) => {
+    app.get('/users/role/:email', verifyToken, async (req, res) => {
       const email = req.params.email
       if (email !== req.decoded.email) {
         return res.status(403).send({ message: 'Unauthorized access' })
@@ -138,7 +139,7 @@ async function run () {
       res.send(result)
     })
 
-    app.delete('/users/:id',  async (req, res) => {
+    app.delete('/users/:id', async (req, res) => {
       const id = req.params.id
       const query = { _id: new ObjectId(id) }
       const result = await userCollection.deleteOne(query)
@@ -148,7 +149,7 @@ async function run () {
 
 
 
-        // appointment related api
+    // appointment related api
     app.post('/appointment', async (req, res) => {
       const booked = req.body
       const result = await appointmentCollection.insertOne(booked)
@@ -179,13 +180,13 @@ async function run () {
     })
 
 
-   // reviews related api
+    // reviews related api
 
-app.post("/reviews", async (req, res) => {
-    const { review, date } = req.body;
-    const result = await reviewsCollection.insertOne({ review, date });
-    res.send(result); 
-});
+    app.post("/reviews", async (req, res) => {
+      const { review, date } = req.body;
+      const result = await reviewsCollection.insertOne({ review, date });
+      res.send(result);
+    });
 
 
     app.get('/reviews', async (req, res) => {
