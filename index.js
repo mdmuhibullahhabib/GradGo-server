@@ -119,7 +119,7 @@ async function run() {
           $set: { role }
         }
         const result = await userCollection.updateOne(filter, updatedDoc)
-        res.send(result)
+        res.send(result);
       }
     )
 
