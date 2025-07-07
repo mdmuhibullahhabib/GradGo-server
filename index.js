@@ -182,7 +182,7 @@ async function run() {
         { _id: new ObjectId(id), status: 'pending' },
         { $set: { status: 'in-review' } }
       )
-      res.send(result)
+      res.send(result);
     })
 
     app.delete('/booked/:id', async (req, res) => {
