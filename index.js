@@ -30,7 +30,7 @@ async function run() {
 
     const userCollection = client.db('GradGo').collection('users')
     const reviewsCollection = client.db('GradGO').collection('reviews')
-    const bookingCollection = client.db('GradGO').collection('booking')
+    const bookingsCollection = client.db('GradGO').collection('booking')
 
     // jwt related api
     app.post('/jwt', async (req, res) => {
