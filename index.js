@@ -40,7 +40,7 @@ async function run() {
       res.send({ token });
     })
 
-     // middlewares 
+    // middlewares 
     const verifyToken = (req, res, next) => {
       console.log('inside verify token', req.headers.authorization);
       if (!req.headers.authorization) {
@@ -149,12 +149,12 @@ async function run() {
 
 
     // Gigs related api
-       app.get('/gigs', async (req, res) => {
+    app.get('/gigs', async (req, res) => {
       const result = await gigCollection.find().toArray()
       res.send(result)
     })
 
-        app.get('/gigs/:id', async (req, res) => {
+    app.get('/gigs/:id', async (req, res) => {
       const id = req.params.id
       const query = { _id: new ObjectId(id) }
       const result = await gigCollection.findOne(query)
