@@ -173,7 +173,7 @@ async function run() {
       const email = req.query.email;
       const query = { email: email };
       const result = await bookingsCollection.find(query).toArray();
-      res.send(result)
+      res.send(result);
     })
 
     app.patch('/booked/:id', async (req, res) => {
