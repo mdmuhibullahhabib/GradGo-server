@@ -177,7 +177,7 @@ async function run() {
     })
 
     app.patch('/booked/:id', async (req, res) => {
-      const id = req.params.id
+      const id = req.params.id;
       const result = await bookingsCollection.updateOne(
         { _id: new ObjectId(id), status: 'pending' },
         { $set: { status: 'in-review' } }
