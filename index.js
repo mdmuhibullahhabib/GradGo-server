@@ -31,6 +31,7 @@ async function run() {
     const userCollection = client.db('GradGo').collection('users')
     const reviewsCollection = client.db('GradGo').collection('reviews')
     const bookingsCollection = client.db('GradGo').collection('booked')
+    const gigCollection = client.db('GradGo').collection('gigs')
 
     // jwt related api
     app.post('/jwt', async (req, res) => {
@@ -55,15 +56,13 @@ async function run() {
       })
     }
 
-
-    app.get('/doctors', async (req, res) => {
-      const result = await doctorsCollection.find().toArray()
+    // user related apis
+    app.get('/users', async (req, res) => {
+      const result = await userCollection.find().toArray()
       res.send(result)
     })
 
-
-    // user related apis
-    app.get('/users', async (req, res) => {
+    app.get('/users/consultant', async (req, res) => {
       const result = await userCollection.find().toArray()
       res.send(result)
     })
@@ -148,6 +147,19 @@ async function run() {
     })
 
 
+
+    // Gigs related api
+       app.get('/gigs', async (req, res) => {
+      const result = await gigCollection.find().toArray()
+      res.send(result)
+    })
+
+        app.get('/gigs/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await gigCollection.findOne(query)
+      res.send(result)
+    })
 
 
     // booking related api
