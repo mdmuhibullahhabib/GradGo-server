@@ -130,7 +130,7 @@ async function run() {
     })
 
     app.put('/users/:id', async (req, res) => {
-      const { id } = req.params
+      const { id } = req.params;
       const updateData = req.body
       const result = await userCollection.updateOne(
         { _id: new ObjectId(id) },
