@@ -210,7 +210,7 @@ async function run() {
       const email = req.query.email;
       const query = { email: email }
       const result = await reviewsCollection.find(query).toArray()
-      res.send(result)
+      res.send(result);
     })
 
     app.get('/reviews-random', async (req, res) => {
