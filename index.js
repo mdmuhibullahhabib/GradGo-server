@@ -30,6 +30,7 @@ async function run() {
 
     const userCollection = client.db('GradGo').collection('users')
     const reviewsCollection = client.db('GradGO').collection('reviews')
+    const bookingCollection = client.db('GradGO').collection('booking')
 
     // jwt related api
     app.post('/jwt', async (req, res) => {
@@ -108,8 +109,8 @@ async function run() {
     })
 
     app.patch(
-      '/users/guide/:id',
-      // verifyToken,
+      '/users/consultants/:id',
+      verifyToken,
       // verifyAdmin,
       async (req, res) => {
         const id = req.params.id
@@ -149,33 +150,33 @@ async function run() {
 
 
 
-    // appointment related api
+    // booking related api
     app.post('/appointment', async (req, res) => {
       const booked = req.body
-      const result = await appointmentCollection.insertOne(booked)
+      const result = await bookingsCollection.insertOne(booked)
       res.send(result)
     })
 
     app.get('/appointment', async (req, res) => {
       const email = req.query.email
       const query = { email: email }
-      const result = await appointmentCollection.find(query).toArray()
+      const result = await bookingsCollection.find(query).toArray()
       res.send(result)
     })
 
     app.patch('/appointment/:id', async (req, res) => {
       const id = req.params.id
-      const result = await appointmentCollection.updateOne(
+      const result = await bookingsCollection.updateOne(
         { _id: new ObjectId(id), status: 'pending' },
         { $set: { status: 'in-review' } }
       )
       res.send(result)
     })
 
-    app.delete('/appointment/:id', async (req, res) => {
+    app.delete('/bookings/:id', async (req, res) => {
       const id = req.params.id
       const query = { _id: new ObjectId(id) }
-      const result = await appointmentCollection.deleteOne(query)
+      const result = await bookingsCollection.deleteOne(query)
       res.send(result)
     })
 
