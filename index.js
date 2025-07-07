@@ -151,7 +151,7 @@ async function run() {
 
 
     // booking related api
-    app.post('/appointment', async (req, res) => {
+    app.post('/bookings', async (req, res) => {
       const booked = req.body
       const result = await bookingsCollection.insertOne(booked)
       res.send(result)
@@ -182,7 +182,6 @@ async function run() {
 
 
     // reviews related api
-
     app.post("/reviews", async (req, res) => {
       const { review, date } = req.body;
       const result = await reviewsCollection.insertOne({ review, date });
